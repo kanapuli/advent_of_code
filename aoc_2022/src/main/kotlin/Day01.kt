@@ -1,31 +1,63 @@
 import java.io.File
 
-fun main(){
-    val problem01Input = "Day01_1.txt"
-    val maxCalorie = problem01(problem01Input)
-    println(maxCalorie)
+fun main() {
+    readFile("Day01_1.txt")
+        .also {
+            val maxCalorie = problem01(it)
+            println(maxCalorie) // 68802
+        }
+        .also {
+            val maxCaloriesOfThreeElves = problem02(it, 3)
+            println(maxCaloriesOfThreeElves) // 205370
+        }
+
 }
 
-fun problem01(filePath: String): Int {
-    var maxCalorie = 0
+/**
+ * problem01 is to find the max calorie that an elf is carrying
+ * @param input - list of calorie inputs
+ */
+fun problem01(input: File): Int = input.let {
+    caloriesOfElvesSortedDescending(it).first()
+}
+
+
+/**
+ * problem02 is to find the total of top 3 maximum calories carried by the elves
+ * @param input - list of calorie inputs
+ * @param numberOfElves - Top 'n' to be considered for calorie calculation
+ */
+fun problem02(input: File, numberOfElves: Int): Int = input.let {
+    caloriesOfElvesSortedDescending(it).take(numberOfElves).reduce { acc, i ->
+        acc + i
+    }
+}
+
+/**
+ * readCalories reads the input problem file from the class resources
+ */
+fun readFile(filePath: String): File = File(ClassLoader.getSystemResource(filePath).file)
+
+/**
+ * caloriesOfElvesSortedDescending returns a list of calories carried by each
+ * elf. The final list is sorted in descending order
+ */
+fun caloriesOfElvesSortedDescending(file: File): List<Int> {
+    var caloriesCarriedByElves = mutableListOf<Int>()
     try {
         var caloriesOfAnElf = 0
-        readCalories(filePath)
+        file
             .forEachLine { calorie ->
                 if (calorie.isNotEmpty()) {
                     caloriesOfAnElf += calorie.toInt()
                 } else {
-                    if (maxCalorie < caloriesOfAnElf) {
-                        maxCalorie = caloriesOfAnElf
-                    }
-                    //reset caloriesOfAnElf on every Blank line
+                    caloriesCarriedByElves.add(caloriesOfAnElf)
                     caloriesOfAnElf = 0
                 }
             }
-        return maxCalorie
+        return caloriesCarriedByElves.sortedDescending()
     } catch (e: NullPointerException) {
-        throw Exception("The file path $filePath could not be found")
+        //TODO: Avoid side effects from this function
+        throw Exception("The file path ${file.path} could not be found")
     }
 }
-
-fun readCalories(filePath: String): File = File(ClassLoader.getSystemResource(filePath).file)
