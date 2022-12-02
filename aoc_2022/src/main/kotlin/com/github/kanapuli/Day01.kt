@@ -1,4 +1,6 @@
 import java.io.File
+import com.github.kanapuli.utils.readFile
+import com.github.kanapuli.utils.sortedDescending
 
 fun main() {
     readFile("Day01_1.txt")
@@ -32,11 +34,6 @@ fun problem02(input: File, numberOfElves: Int): Int = input.let {
         acc + i
     }
 }
-
-/**
- * readCalories reads the input problem file from the class resources
- */
-fun readFile(filePath: String): File = File(ClassLoader.getSystemResource(filePath).file)
 
 /**
  * caloriesOfElvesSortedDescending returns a list of calories carried by each
