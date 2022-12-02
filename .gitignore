@@ -1,1 +1,4 @@
 **/target
+**/.idea/**
+aoc_2022/.gradle/**
+**/build
