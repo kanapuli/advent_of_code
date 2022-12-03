@@ -12,7 +12,6 @@ fun main() {
             val maxCaloriesOfThreeElves = problem02(it, 3)
             println(maxCaloriesOfThreeElves) // 205370
         }
-
 }
 
 /**
