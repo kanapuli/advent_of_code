@@ -20,8 +20,11 @@ const val UTF16_DISCARD_NUMBER_UPPERCASE = 38
 fun main() {
     readFile("Day03.txt")
         .also {
-            val sum = findSumOfPriorities(it)
-            println(sum)
+            val sumOfPriority = findSumOfPriorities(it)
+            println(sumOfPriority) // 8018
+        }.also {
+            val sumOfPriorityOfThreeGroups = findSumOfPrioritiesForThreeGroups(it)
+            println(sumOfPriorityOfThreeGroups) // 2518
         }
 
 }
@@ -48,3 +51,29 @@ fun findSumOfPriorities(file: File): Int {
         prioritySum + i
     }
 }
+
+/**
+ * @see https://adventofcode.com/2022/day/3#part2
+ */
+fun findSumOfPrioritiesForThreeGroups(file: File): Int {
+
+    return file.readLines()
+        .chunked(3)
+        .map {
+            it.get(0).toList()
+                .intersect(it.get(1).toList())
+                .intersect(it.get(2).toList())
+                .map { item ->
+                    when {
+                        item.code in 65..96 -> item.code - UTF16_DISCARD_NUMBER_UPPERCASE
+                        item.code >= 97 -> item.code - UTF16_DISCARD_NUMBER_LOWERCASE
+                        else -> 0
+                    }
+                }.reduce { acc, i ->
+                    acc + i
+                }
+        }.reduce { prioritySum, i ->
+            prioritySum + i
+        }
+}
+
