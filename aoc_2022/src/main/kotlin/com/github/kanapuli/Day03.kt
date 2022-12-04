@@ -26,7 +26,6 @@ fun main() {
             val sumOfPriorityOfThreeGroups = findSumOfPrioritiesForThreeGroups(it)
             println(sumOfPriorityOfThreeGroups) // 2518
         }
-
 }
 
 /**
@@ -56,7 +55,6 @@ fun findSumOfPriorities(file: File): Int {
  * @see https://adventofcode.com/2022/day/3#part2
  */
 fun findSumOfPrioritiesForThreeGroups(file: File): Int {
-
     return file.readLines()
         .chunked(3)
         .map {
