@@ -5,6 +5,24 @@ fun <T : Comparable<T>> List<T>.sortedDescending(): List<T> {
 }
 
 /**
+ * intersect returns the list of unique common elements between two lists
+ * TODO: Improve the algorithm using binary operation
+ */
+fun <T: Comparable<T>> List<T>.intersect(secondList: List<T>): List<T> {
+    val intersectedList = mutableListOf<T>()
+    val hashOfIntersectedItems = mutableMapOf<T, Any?>()
+    this.forEach { a ->
+        secondList.forEach { b ->
+            if (a == b && !hashOfIntersectedItems.containsKey(a)) {
+                intersectedList.add(a)
+                hashOfIntersectedItems[a] = null
+            }
+        }
+    }
+    return intersectedList
+}
+
+/**
  * mergeSort sorts an array in descending order using the mergesort algorithm
  */
 private fun <T : Comparable<T>> mergeSort(list: List<T>): List<T> {
